@@ -6,7 +6,7 @@ use actix_web::{rt::spawn, App, HttpServer};
 use rustls::{Certificate, PrivateKey, ServerConfig};
 
 pub async fn config() -> ServerConfig {
-    fs::create_dir(".well-known/acme-challenge/").unwrap();
+    fs::create_dir_all(".well-known/acme-challenge/").unwrap();
 
     let acme = spawn(
         HttpServer::new(|| {
