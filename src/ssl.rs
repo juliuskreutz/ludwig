@@ -1,15 +1,17 @@
-use std::{fs, time::Duration};
+use std::{fs, sync::mpsc, time::Duration};
 
 use acme2::{AccountBuilder, Csr, DirectoryBuilder, Error, OrderBuilder};
 use actix_files::Files;
-use actix_web::{rt::spawn, App, HttpServer};
+use actix_web::{rt, App, HttpServer};
 use rustls::{Certificate, PrivateKey, ServerConfig};
 
 pub async fn config() -> ServerConfig {
     fs::create_dir_all(".well-known/acme-challenge/").unwrap();
 
-    let acme = spawn(
-        HttpServer::new(|| {
+    let (s, r) = mpsc::channel();
+
+    rt::spawn({
+        let server = HttpServer::new(|| {
             App::new().service(Files::new(
                 "/.well-known/acme-challenge/",
                 ".well-known/acme-challenge/",
@@ -17,13 +19,17 @@ pub async fn config() -> ServerConfig {
         })
         .bind(("0.0.0.0", 80))
         .unwrap()
-        .run(),
-    );
+        .run();
+
+        s.send(server.handle()).unwrap();
+
+        server
+    });
 
     let (key, certs) = certificates().await.unwrap();
 
-    acme.abort();
-    let _ = acme.await;
+    let handle = r.recv().unwrap();
+    handle.stop(false).await;
 
     fs::remove_dir_all(".well-known/").unwrap();
 
