@@ -23,6 +23,8 @@ pub async fn config() -> ServerConfig {
     let (key, certs) = certificates().await.unwrap();
 
     acme.abort();
+    let _ = acme.await;
+
     fs::remove_dir_all(".well-known/").unwrap();
 
     ServerConfig::builder()
