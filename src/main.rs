@@ -3,14 +3,19 @@ use std::{
     io::{self, BufReader},
 };
 
-use actix_web::{App, HttpServer};
+use actix_web::{get, App, HttpServer, Responder};
 use rustls::{Certificate, PrivateKey, ServerConfig};
+
+#[get("/")]
+async fn index() -> impl Responder {
+    "Hello World"
+}
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
     let ssl = load_ssl();
 
-    HttpServer::new(move || App::new().service(actix_files::Files::new("/static", "static")))
+    HttpServer::new(move || App::new().service(index))
         .bind(("0.0.0.0", 80))?
         .bind_rustls(("0.0.0.0", 443), ssl)?
         .run()
