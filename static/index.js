@@ -3,8 +3,9 @@ function onLoad() {
 
     for (var i = 0; i < cards.length; i++) {
         let trash = cards[i].children[0];
+        let name = cards[i].getAttribute("name");
 
-        trash.onclick = (_) => remove(cards[i].getAttribute("name"));
+        trash.onclick = (_) => remove(name);
     }
 }
 
