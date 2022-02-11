@@ -58,7 +58,7 @@ fn renderer(dir: &Directory, req: &HttpRequest) -> Result<ServiceResponse, io::E
 
         if metadata.is_file() {
             files.push(Info {
-                path: path_string.clone(),
+                path: path_string.replace('\'', "\\'"),
                 name,
             });
         } else if metadata.is_dir() {
@@ -93,7 +93,7 @@ fn renderer(dir: &Directory, req: &HttpRequest) -> Result<ServiceResponse, io::E
                 .unwrap()
                 .render(
                     name,
-                    &json!({"parent": parent, "path": path, "folders": folders, "files": files}),
+                    &json!({"parent": parent, "folders": folders, "files": files}),
                 )
                 .unwrap(),
         ),

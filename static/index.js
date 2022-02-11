@@ -1,3 +1,14 @@
+function onLoad() {
+    let cards = document.getElementsByClassName("card");
+
+    for (var i = 0; i < cards.length; i++) {
+        let trash = cards[i].children[0];
+        let name = cards[i].children[1].children[1].innerHTML;
+
+        trash.onclick = (_) => remove(name);
+    }
+}
+
 function remove(name) {
     let modal = document.getElementById("modal");
     let modalContent = document.getElementById("modal-content");
@@ -8,7 +19,7 @@ function remove(name) {
 
     let yes = document.createElement("button");
     yes.innerHTML = "Yes";
-    yes.onclick = async (_) => {
+    yes.onclick = (_) => {
         fetch("/remove", {
             method: "POST",
             headers: {
@@ -48,8 +59,8 @@ function newFolder() {
 
     let ok = document.createElement("button");
     ok.innerHTML = "Ok";
-    ok.onclick = async (_) => {
-        await fetch("/create", {
+    ok.onclick = (_) => {
+        fetch("/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -79,7 +90,7 @@ function uploadFiles() {
     input.type = "file";
     input.multiple = true;
 
-    input.onchange = async (_) => {
+    input.onchange = (_) => {
         let data = new FormData();
 
         data.append("path", window.location.pathname);
@@ -88,7 +99,16 @@ function uploadFiles() {
             data.append("file", input.files[i]);
         }
 
-        await fetch("/upload", {
+        let modal = document.getElementById("modal");
+        let modalContent = document.getElementById("modal-content");
+        modalContent.innerHTML = "";
+
+        let text = document.createTextNode("Loading...");
+        modalContent.appendChild(text);
+
+        modal.style.display = "block";
+
+        fetch("/upload", {
             method: "POST",
             body: data,
         }).then((_) => {

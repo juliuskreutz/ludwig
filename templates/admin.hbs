@@ -12,7 +12,7 @@
             crossorigin="anonymous"
         ></script>
     </head>
-    <body>
+    <body onload="onLoad()">
         <div class="container">
             {{#if parent}}
                 <div class="card">
@@ -23,10 +23,7 @@
             {{/if}}
             {{#each folders}}
                 <div class="card">
-                    <button
-                        class="fa-solid fa-trash trash"
-                        onclick="remove('{{this.name}}')"
-                    ></button>
+                    <button class="fa-solid fa-trash trash"></button>
                     <a class="card-content" href="{{this.path}}{{this.name}}">
                         <i class="fa-solid fa-folder icon folder"></i><span
                             class="name"
@@ -36,10 +33,7 @@
             {{/each}}
             {{#each files}}
                 <div class="card">
-                    <button
-                        class="fa-solid fa-trash trash"
-                        onclick="remove('{{this.name}}')"
-                    ></button>
+                    <button class="fa-solid fa-trash trash"></button>
                     <a class="card-content" href="{{this.path}}{{this.name}}">
                         <i class="fa-solid fa-file icon file"></i><span
                             class="name"
