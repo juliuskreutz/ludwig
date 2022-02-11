@@ -1,11 +1,14 @@
 function onLoad() {
-    let cards = document.querySelectorAll("[name]");
+    let cards = document.getElementsByClassName("card");
 
     for (var i = 0; i < cards.length; i++) {
-        let trash = cards[i].children[0];
         let name = cards[i].getAttribute("name");
 
-        trash.onclick = (_) => remove(name);
+        if (name) {
+            let trash = cards[i].children[0];
+
+            trash.onclick = (_) => remove(name);
+        }
     }
 }
 
