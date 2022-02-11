@@ -1,6 +1,9 @@
-let path = document.getElementById("path").getAttribute("path");
-
 function onLoad() {
+    localStorage.setItem(
+        "path",
+        document.getElementById("path").getAttribute("path")
+    );
+
     let cards = document.getElementsByClassName("removable");
 
     for (var i = 0; i < cards.length; i++) {
@@ -28,7 +31,7 @@ function remove(name) {
             },
             body: JSON.stringify({
                 name: name,
-                path: path,
+                path: localStorage.getItem("path"),
             }),
         }).then((_) => {
             location.reload();
@@ -68,7 +71,7 @@ function newFolder() {
             },
             body: JSON.stringify({
                 name: input.value,
-                path: path,
+                path: localStorage.getItem("path"),
             }),
         }).then((_) => {
             location.reload();
@@ -94,7 +97,7 @@ function uploadFiles() {
     input.onchange = (_) => {
         let data = new FormData();
 
-        data.append("path", path);
+        data.append("path", localStorage.getItem("path"));
 
         for (var i = 0; i < input.files.length; i++) {
             data.append("file", input.files[i]);
