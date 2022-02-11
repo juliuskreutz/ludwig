@@ -4,10 +4,12 @@ use actix_files::Files;
 use actix_session::CookieSession;
 use actix_web::{web::Data, App, HttpServer};
 use handlebars::Handlebars;
+use https::Https;
 use rand::Rng;
 
 mod auth;
 mod files;
+mod https;
 mod ssl;
 
 #[actix_web::main]
@@ -24,6 +26,7 @@ async fn main() -> io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(Data::new(handlebars.clone()))
+            .wrap(Https::new())
             .wrap(CookieSession::private(&key).name("auth"))
             .service(Files::new("/static/", "static"))
             .configure(auth::config)
