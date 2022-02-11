@@ -75,6 +75,7 @@ async fn certificates() -> Result<(PrivateKey, Vec<Certificate>), Error> {
     let account = builder.build().await?;
 
     let mut builder = OrderBuilder::new(account);
+    builder.add_dns_identifier("spund.de".to_string());
     builder.add_dns_identifier("www.spund.de".to_string());
     let order = builder.build().await?;
 
