@@ -26,7 +26,31 @@ pub async fn config() -> ServerConfig {
         server
     });
 
-    let (key, certs) = certificates().await.unwrap();
+    let (key, certs) = if let Ok((key, certs)) = certificates().await {
+        let _ = fs::remove_dir_all("certs");
+        fs::create_dir("certs").unwrap();
+
+        fs::write("certs/key", &key.0).unwrap();
+
+        for (i, cert) in certs.iter().enumerate() {
+            fs::write(format!("certs/cert{}", i), &cert.0).unwrap();
+        }
+
+        (key, certs)
+    } else {
+        let key = PrivateKey(fs::read("certs/key").unwrap());
+
+        let mut certs = Vec::new();
+
+        let mut i = 0;
+
+        while let Ok(cert) = fs::read(format!("certs/cert{}", i)) {
+            certs.push(Certificate(cert));
+            i += 1;
+        }
+
+        (key, certs)
+    };
 
     let handle = r.recv().unwrap();
     handle.stop(false).await;
