@@ -1,3 +1,5 @@
 /target
+/certs
+/files
 
 Cargo.lock

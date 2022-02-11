@@ -57,15 +57,9 @@ fn renderer(dir: &Directory, req: &HttpRequest) -> Result<ServiceResponse, io::E
         let name = entry.file_name().into_string().unwrap();
 
         if metadata.is_file() {
-            files.push(Info {
-                path: path_string.clone(),
-                name,
-            });
+            files.push(name);
         } else if metadata.is_dir() {
-            folders.push(Info {
-                path: path_string.clone(),
-                name,
-            });
+            folders.push(name);
         }
     }
 

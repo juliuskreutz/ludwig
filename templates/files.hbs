@@ -15,26 +15,26 @@
         <div class="container">
             {{#if parent}}
                 <div class="card">
-                    <a class="card-content" href="{{parent}}">
+                    <a class="card-content" href="{{{parent}}}">
                         <i class="fa-solid fa-arrow-up icon"></i>
                     </a>
                 </div>
             {{/if}}
             {{#each folders}}
                 <div class="card">
-                    <a class="card-content" href="{{this.path}}{{this.name}}">
+                    <a class="card-content" href="{{{../path}}}{{{this}}}">
                         <i class="fa-solid fa-folder icon folder"></i><span
                             class="name"
-                        >{{this.name}}</span>
+                        >{{this}}</span>
                     </a>
                 </div>
             {{/each}}
             {{#each files}}
                 <div class="card">
-                    <a class="card-content" href="{{this.path}}{{this.name}}">
+                    <a class="card-content" href="{{{../path}}}{{{this}}}">
                         <i class="fa-solid fa-file icon file"></i><span
                             class="name"
-                        >{{this.name}}</span>
+                        >{{{this}}}</span>
                     </a>
                 </div>
             {{/each}}

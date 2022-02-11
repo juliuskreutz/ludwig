@@ -1,15 +1,10 @@
 function onLoad() {
-    localStorage.setItem(
-        "path",
-        document.getElementById("path").getAttribute("path")
-    );
+    let trashs = document.getElementsByClassName("trash");
 
-    let cards = document.getElementsByClassName("removable");
+    for (var i = 0; i < trashs.length; i++) {
+        let name = trashs[i].getAttribute("name");
 
-    for (var i = 0; i < cards.length; i++) {
-        let name = cards[i].getAttribute("name");
-
-        cards[i].children[0].onclick = (_) => remove(name);
+        trashs[i].onclick = (_) => remove(name);
     }
 }
 
@@ -31,7 +26,7 @@ function remove(name) {
             },
             body: JSON.stringify({
                 name: name,
-                path: localStorage.getItem("path"),
+                path: window.path,
             }),
         }).then((_) => {
             location.reload();
@@ -71,7 +66,7 @@ function newFolder() {
             },
             body: JSON.stringify({
                 name: input.value,
-                path: localStorage.getItem("path"),
+                path: window.path,
             }),
         }).then((_) => {
             location.reload();
@@ -97,7 +92,7 @@ function uploadFiles() {
     input.onchange = (_) => {
         let data = new FormData();
 
-        data.append("path", localStorage.getItem("path"));
+        data.append("path", window.path);
 
         for (var i = 0; i < input.files.length; i++) {
             data.append("file", input.files[i]);
