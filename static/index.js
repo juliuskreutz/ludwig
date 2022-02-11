@@ -9,7 +9,7 @@ function remove(name) {
     let yes = document.createElement("button");
     yes.innerHTML = "Yes";
     yes.onclick = async (_) => {
-        await fetch("/remove", {
+        fetch("/remove", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -18,9 +18,9 @@ function remove(name) {
                 name: name,
                 path: window.location.pathname,
             }),
+        }).then((_) => {
+            location.reload();
         });
-
-        location.reload();
     };
     modalContent.appendChild(yes);
 
@@ -58,9 +58,9 @@ function newFolder() {
                 name: input.value,
                 path: window.location.pathname,
             }),
+        }).then((_) => {
+            location.reload();
         });
-
-        location.reload();
     };
     modalContent.appendChild(ok);
 
@@ -91,9 +91,9 @@ function uploadFiles() {
         await fetch("/upload", {
             method: "POST",
             body: data,
+        }).then((_) => {
+            location.reload();
         });
-
-        location.reload();
     };
 
     input.click();
