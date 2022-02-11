@@ -29,7 +29,7 @@ async fn main() -> io::Result<()> {
             .configure(auth::config)
             .configure(files::config)
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 80))?
     .bind_rustls(("0.0.0.0", 443), ssl)?
     .run()
     .await
