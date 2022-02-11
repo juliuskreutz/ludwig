@@ -1,17 +1,16 @@
+let path = document.getElementById("path").getAttribute("path");
+
 function onLoad() {
     let cards = document.getElementsByClassName("removable");
 
     for (var i = 0; i < cards.length; i++) {
         let name = cards[i].getAttribute("name");
-        let path = localStorage.getItem("path");
 
-        cards[i].children[0].onclick = (_) => remove(name, path);
+        cards[i].children[0].onclick = (_) => remove(name);
     }
 }
 
 function remove(name) {
-    let path = localStorage.getItem("path");
-
     let modal = document.getElementById("modal");
     let modalContent = document.getElementById("modal-content");
     modalContent.innerHTML = "";
@@ -48,8 +47,6 @@ function remove(name) {
 }
 
 function newFolder() {
-    let path = localStorage.getItem("path");
-
     let modal = document.getElementById("modal");
     let modalContent = document.getElementById("modal-content");
     modalContent.innerHTML = "";
@@ -90,8 +87,6 @@ function newFolder() {
 }
 
 function uploadFiles() {
-    let path = localStorage.getItem("path");
-
     let input = document.createElement("input");
     input.type = "file";
     input.multiple = true;
