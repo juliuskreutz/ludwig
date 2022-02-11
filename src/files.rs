@@ -58,12 +58,12 @@ fn renderer(dir: &Directory, req: &HttpRequest) -> Result<ServiceResponse, io::E
 
         if metadata.is_file() {
             files.push(Info {
-                path: path_string.replace('\'', "\\'"),
+                path: path_string.clone(),
                 name,
             });
         } else if metadata.is_dir() {
             folders.push(Info {
-                path: path_string.replace('\'', "\\'"),
+                path: path_string.clone(),
                 name,
             });
         }
