@@ -14,7 +14,7 @@ pub struct User {
 }
 
 pub fn config(cfg: &mut ServiceConfig) {
-    cfg.service(login).service(login_post);
+    cfg.service(login).service(login_post).service(logout);
 }
 
 #[get("/login")]
@@ -47,12 +47,19 @@ async fn login_post(session: Session, user: Form<User>) -> impl Responder {
         .finish()
 }
 
-fn encode(password: &str) -> String {
-    argon2::hash_encoded(password.as_bytes(), b"random_salt", &Config::default()).unwrap()
+#[get("/logout")]
+async fn logout(session: Session) -> impl Responder {
+    session.clear();
+
+    HttpResponse::Found()
+        .append_header(("LOCATION", "/"))
+        .finish()
 }
 
 pub fn is_ludwig(user: &User) -> bool {
-    let hash = encode(&user.password);
+    user.name == "ludwig" && encode(&user.password) == "$argon2i$v=19$m=4096,t=3,p=1$cmFuZG9tX3NhbHQ$hy47/Y18TGiOEB0d2pZNAAmIwJ6czkQSQsSlNcvc468"
+}
 
-    user.name == "ludwig" && hash == "$argon2i$v=19$m=4096,t=3,p=1$cmFuZG9tX3NhbHQ$hy47/Y18TGiOEB0d2pZNAAmIwJ6czkQSQsSlNcvc468"
+fn encode(password: &str) -> String {
+    argon2::hash_encoded(password.as_bytes(), b"random_salt", &Config::default()).unwrap()
 }
