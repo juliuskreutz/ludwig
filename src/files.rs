@@ -150,7 +150,7 @@ async fn upload(session: Session, mut payload: Multipart) -> impl Responder {
 
                 let path = core::str::from_utf8(&bytes).unwrap();
 
-                while let Some(mut field) = payload.try_next().await.unwrap() {
+                while let Ok(Some(mut field)) = payload.try_next().await {
                     let filepath = format!(
                         "files{}/{}",
                         path,
