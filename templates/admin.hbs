@@ -22,7 +22,11 @@
                 </div>
             {{/if}}
             {{#each folders}}
-                <div class="card" name="{{this.name}}">
+                <div
+                    class="card removable"
+                    name="{{this.name}}"
+                    path="{{this.path}}"
+                >
                     <button class="fa-solid fa-trash trash"></button>
                     <a class="card-content" href="{{this.path}}{{this.name}}">
                         <i class="fa-solid fa-folder icon folder"></i><span
@@ -32,7 +36,11 @@
                 </div>
             {{/each}}
             {{#each files}}
-                <div class="card" name="{{this.name}}">
+                <div
+                    class="card removable"
+                    name="{{this.name}}"
+                    path="{{this.path}}"
+                >
                     <button class="fa-solid fa-trash trash"></button>
                     <a class="card-content" href="{{this.path}}{{this.name}}">
                         <i class="fa-solid fa-file icon file"></i><span

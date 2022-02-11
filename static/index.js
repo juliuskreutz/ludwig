@@ -1,18 +1,15 @@
 function onLoad() {
-    let cards = document.getElementsByClassName("card");
+    let cards = document.getElementsByClassName("removable");
 
     for (var i = 0; i < cards.length; i++) {
         let name = cards[i].getAttribute("name");
+        let path = cards[i].getAttribute("path");
 
-        if (name) {
-            let trash = cards[i].children[0];
-
-            trash.onclick = (_) => remove(name);
-        }
+        cards[i].children[0].onclick = (_) => remove(name, path);
     }
 }
 
-function remove(name) {
+function remove(name, path) {
     let modal = document.getElementById("modal");
     let modalContent = document.getElementById("modal-content");
     modalContent.innerHTML = "";
@@ -30,7 +27,7 @@ function remove(name) {
             },
             body: JSON.stringify({
                 name: name,
-                path: window.location.pathname,
+                path: path,
             }),
         }).then((_) => {
             location.reload();
@@ -48,7 +45,7 @@ function remove(name) {
     modal.style.display = "block";
 }
 
-function newFolder() {
+function newFolder(path) {
     let modal = document.getElementById("modal");
     let modalContent = document.getElementById("modal-content");
     modalContent.innerHTML = "";
@@ -70,7 +67,7 @@ function newFolder() {
             },
             body: JSON.stringify({
                 name: input.value,
-                path: window.location.pathname,
+                path: path,
             }),
         }).then((_) => {
             location.reload();
@@ -88,7 +85,7 @@ function newFolder() {
     modal.style.display = "block";
 }
 
-function uploadFiles() {
+function uploadFiles(path) {
     let input = document.createElement("input");
     input.type = "file";
     input.multiple = true;
@@ -96,7 +93,7 @@ function uploadFiles() {
     input.onchange = (_) => {
         let data = new FormData();
 
-        data.append("path", window.location.pathname);
+        data.append("path", path);
 
         for (var i = 0; i < input.files.length; i++) {
             data.append("file", input.files[i]);

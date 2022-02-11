@@ -105,7 +105,7 @@ async fn remove(session: Session, info: Json<Info>) -> impl Responder {
     if let Ok(Some(auth)) = session.get::<String>("auth") {
         if let Ok(user) = serde_json::from_str::<User>(&auth) {
             if auth::is_ludwig(&user) {
-                let path = format!("files{}/{}", info.path, info.name);
+                let path = format!("files{}{}", info.path, info.name);
                 let path = Path::new(&path);
 
                 if path.is_file() {
@@ -125,7 +125,7 @@ async fn create(session: Session, info: Json<Info>) -> impl Responder {
     if let Ok(Some(auth)) = session.get::<String>("auth") {
         if let Ok(user) = serde_json::from_str::<User>(&auth) {
             if auth::is_ludwig(&user) {
-                let _ = fs::create_dir(format!("files{}/{}", info.path, info.name));
+                let _ = fs::create_dir(format!("files{}{}", info.path, info.name));
             }
         }
     }
@@ -152,12 +152,10 @@ async fn upload(session: Session, mut payload: Multipart) -> impl Responder {
 
                 while let Ok(Some(mut field)) = payload.try_next().await {
                     let filepath = format!(
-                        "files{}/{}",
+                        "files{}{}",
                         path,
                         field.content_disposition().get_filename().unwrap()
                     );
-
-                    println!("{filepath}");
 
                     let mut f = web::block(|| File::create(filepath))
                         .await
