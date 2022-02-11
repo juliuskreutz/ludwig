@@ -1,5 +1,5 @@
 function onLoad() {
-    let cards = document.getElementsByClassName("card");
+    let cards = document.querySelectorAll("[name]");
 
     for (var i = 0; i < cards.length; i++) {
         let trash = cards[i].children[0];
