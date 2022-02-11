@@ -3,13 +3,15 @@ function onLoad() {
 
     for (var i = 0; i < cards.length; i++) {
         let name = cards[i].getAttribute("name");
-        let path = cards[i].getAttribute("path");
+        let path = localStorage.getItem("path");
 
         cards[i].children[0].onclick = (_) => remove(name, path);
     }
 }
 
-function remove(name, path) {
+function remove(name) {
+    let path = localStorage.getItem("path");
+
     let modal = document.getElementById("modal");
     let modalContent = document.getElementById("modal-content");
     modalContent.innerHTML = "";
@@ -45,7 +47,9 @@ function remove(name, path) {
     modal.style.display = "block";
 }
 
-function newFolder(path) {
+function newFolder() {
+    let path = localStorage.getItem("path");
+
     let modal = document.getElementById("modal");
     let modalContent = document.getElementById("modal-content");
     modalContent.innerHTML = "";
@@ -85,7 +89,9 @@ function newFolder(path) {
     modal.style.display = "block";
 }
 
-function uploadFiles(path) {
+function uploadFiles() {
+    let path = localStorage.getItem("path");
+
     let input = document.createElement("input");
     input.type = "file";
     input.multiple = true;
