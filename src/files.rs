@@ -157,6 +157,8 @@ async fn upload(session: Session, mut payload: Multipart) -> impl Responder {
                         field.content_disposition().get_filename().unwrap()
                     );
 
+                    println!("{filepath}");
+
                     let mut f = web::block(|| File::create(filepath))
                         .await
                         .unwrap()
