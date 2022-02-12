@@ -34,9 +34,7 @@ async fn login(session: Session) -> impl Responder {
 
 #[post("/login")]
 async fn login_post(session: Session, user: Form<User>) -> impl Responder {
-    let hash = encode(&user.password);
-
-    if user.name == "ludwig" && hash == "$argon2i$v=19$m=4096,t=3,p=1$cmFuZG9tX3NhbHQ$hy47/Y18TGiOEB0d2pZNAAmIwJ6czkQSQsSlNcvc468" {
+    if is_ludwig(&user) {
         session
             .insert("auth", serde_json::to_string(&user).unwrap())
             .unwrap();
@@ -57,7 +55,7 @@ async fn logout(session: Session) -> impl Responder {
 }
 
 pub fn is_ludwig(user: &User) -> bool {
-    user.name == "ludwig" && encode(&user.password) == "$argon2i$v=19$m=4096,t=3,p=1$cmFuZG9tX3NhbHQ$hy47/Y18TGiOEB0d2pZNAAmIwJ6czkQSQsSlNcvc468"
+    user.name == "ludwig" && encode(&user.password) == "$argon2i$v=19$m=4096,t=3,p=1$cmFuZG9tX3NhbHQ$dzyZtwZ98g8B+Vi50/fljdVXnRlLQ5WshMuxt7zfXSs"
 }
 
 fn encode(password: &str) -> String {
