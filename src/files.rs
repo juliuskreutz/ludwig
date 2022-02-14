@@ -31,7 +31,8 @@ pub fn config(cfg: &mut actix_web::web::ServiceConfig) {
     cfg.service(remove).service(create).service(upload).service(
         Files::new("/", "files")
             .show_files_listing()
-            .files_listing_renderer(renderer),
+            .files_listing_renderer(renderer)
+            .disable_content_disposition(),
     );
 }
 
