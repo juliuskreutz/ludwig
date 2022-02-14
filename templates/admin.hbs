@@ -37,7 +37,7 @@
             {{#each pdfs}}
                 <div class="card removable">
                     <button class="fa-solid fa-trash trash" name="{{{this}}}"></button>
-                    <a class="card-content" href="{{{../path}}}{{{this}}}">
+                    <a class="card-content" href="{{{../path}}}{{{this}}}" target="_blank" rel="noopener noreferrer">
                         <i class="fa-solid fa-file-pdf icon pdf"></i><span
                             class="name"
                         >{{{this}}}</span>
@@ -47,7 +47,7 @@
             {{#each others}}
                 <div class="card removable">
                     <button class="fa-solid fa-trash trash" name="{{{this}}}"></button>
-                    <a class="card-content" href="{{{../path}}}{{{this}}}">
+                    <a class="card-content" href="{{{../path}}}{{{this}}}" target="_blank" rel="noopener noreferrer">
                         <i class="fa-solid fa-file icon other"></i><span
                             class="name"
                         >{{{this}}}</span>
