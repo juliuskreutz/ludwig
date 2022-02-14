@@ -49,19 +49,28 @@ fn renderer(dir: &Directory, req: &HttpRequest) -> Result<ServiceResponse, io::E
         path_string.push('/');
     }
 
-    let mut files = Vec::new();
     let mut folders = Vec::new();
+    let mut pdfs = Vec::new();
+    let mut others = Vec::new();
 
     for entry in fs::read_dir(&dir.path)?.flatten() {
         let metadata = fs::metadata(entry.path())?;
         let name = entry.file_name().into_string().unwrap();
 
-        if metadata.is_file() {
-            files.push(name);
-        } else if metadata.is_dir() {
+        if metadata.is_dir() {
             folders.push(name);
+        } else if metadata.is_file() {
+            if name.ends_with(".pdf") {
+                pdfs.push(name);
+            } else {
+                others.push(name);
+            }
         }
     }
+
+    folders.sort_unstable();
+    pdfs.sort_unstable();
+    others.sort_unstable();
 
     let parent = if path_string == "/" {
         "".to_string()
@@ -87,7 +96,7 @@ fn renderer(dir: &Directory, req: &HttpRequest) -> Result<ServiceResponse, io::E
                 .unwrap()
                 .render(
                     name,
-                    &json!({"parent": parent, "path": path_string, "folders": folders, "files": files}),
+                    &json!({"parent": parent, "path": path_string, "folders": folders, "pdfs": pdfs, "others": others}),
                 )
                 .unwrap(),
         ),

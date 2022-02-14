@@ -34,11 +34,21 @@
                     </a>
                 </div>
             {{/each}}
-            {{#each files}}
+            {{#each pdfs}}
                 <div class="card removable">
                     <button class="fa-solid fa-trash trash" name="{{{this}}}"></button>
                     <a class="card-content" href="{{{../path}}}{{{this}}}">
-                        <i class="fa-solid fa-file icon file"></i><span
+                        <i class="fa-solid fa-file icon pdf"></i><span
+                            class="name"
+                        >{{{this}}}</span>
+                    </a>
+                </div>
+            {{/each}}
+            {{#each others}}
+                <div class="card removable">
+                    <button class="fa-solid fa-trash trash" name="{{{this}}}"></button>
+                    <a class="card-content" href="{{{../path}}}{{{this}}}">
+                        <i class="fa-solid fa-file icon other"></i><span
                             class="name"
                         >{{{this}}}</span>
                     </a>
