@@ -32,7 +32,7 @@ async fn main() -> io::Result<()> {
             .configure(auth::config)
             .configure(files::config)
     })
-    .bind(("0.0.0.0", 80))?
+    .bind(("0.0.0.0", 8080))?
     .bind_rustls(("0.0.0.0", 443), ssl)?
     .run()
     .await

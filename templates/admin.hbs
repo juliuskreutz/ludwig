@@ -28,8 +28,9 @@
                 </div>
             {{/if}}
             {{#each folders}}
-                <div class="card removable">
+                <div class="card">
                     <button class="fa-solid fa-trash trash" name="{{{this}}}"></button>
+                    <button class="fa-solid fa-pencil rename" name="{{{this}}}"></button>
                     <a class="card-content" href="{{{../path}}}{{{this}}}">
                         <i class="fa-solid fa-folder icon folder"></i><span
                             class="name"
@@ -38,8 +39,9 @@
                 </div>
             {{/each}}
             {{#each pdfs}}
-                <div class="card removable">
+                <div class="card">
                     <button class="fa-solid fa-trash trash" name="{{{this}}}"></button>
+                    <button class="fa-solid fa-pencil rename" name="{{{this}}}"></button>
                     <a class="card-content" href="{{{../path}}}{{{this}}}" target="_blank" rel="noopener noreferrer">
                         <i class="fa-solid fa-file-pdf icon pdf"></i><span
                             class="name"
@@ -48,8 +50,9 @@
                 </div>
             {{/each}}
             {{#each others}}
-                <div class="card removable">
+                <div class="card">
                     <button class="fa-solid fa-trash trash" name="{{{this}}}"></button>
+                    <button class="fa-solid fa-pencil rename" name="{{{this}}}"></button>
                     <a class="card-content" href="{{{../path}}}{{{this}}}">
                         <i class="fa-solid fa-file icon other"></i><span
                             class="name"

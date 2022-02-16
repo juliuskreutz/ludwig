@@ -28,12 +28,16 @@ struct Info {
 }
 
 pub fn config(cfg: &mut actix_web::web::ServiceConfig) {
-    cfg.service(remove).service(create).service(upload).service(
-        Files::new("/", "files")
-            .show_files_listing()
-            .files_listing_renderer(renderer)
-            .disable_content_disposition(),
-    );
+    cfg.service(remove)
+        .service(rename)
+        .service(create)
+        .service(upload)
+        .service(
+            Files::new("/", "files")
+                .show_files_listing()
+                .files_listing_renderer(renderer)
+                .disable_content_disposition(),
+        );
 }
 
 fn renderer(dir: &Directory, req: &HttpRequest) -> Result<ServiceResponse, io::Error> {
@@ -116,6 +120,24 @@ async fn remove(session: Session, info: Json<Info>) -> impl Responder {
                     let _ = fs::remove_file(path);
                 } else if path.is_dir() {
                     let _ = fs::remove_dir_all(path).unwrap();
+                }
+            }
+        }
+    }
+
+    HttpResponse::Ok()
+}
+
+#[post("rename")]
+async fn rename(session: Session, info: Json<Info>) -> impl Responder {
+    if let Ok(Some(auth)) = session.get::<String>("auth") {
+        if let Ok(user) = serde_json::from_str::<User>(&auth) {
+            if auth::is_ludwig(&user) {
+                let path = format!("files{}", info.name);
+                let new_path = format!("files{}", info.path);
+
+                if Path::new(new_path).exists() {
+                    let _ = fs::rename(path, new_path);
                 }
             }
         }

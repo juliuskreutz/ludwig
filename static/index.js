@@ -6,6 +6,14 @@ function onLoad() {
 
         trashs[i].onclick = (_) => remove(name);
     }
+
+    let renames = document.getElementsByClassName("rename");
+
+    for (var i = 0; i < renames.length; i++) {
+        let name = renames[i].getAttribute("name");
+
+        renames[i].onclick = (_) => rename(name);
+    }
 }
 
 function remove(name) {
@@ -33,6 +41,49 @@ function remove(name) {
         });
     };
     modalContent.appendChild(yes);
+
+    let cancel = document.createElement("button");
+    cancel.innerHTML = "Cancel";
+    cancel.onclick = (_) => {
+        modal.style.display = "none";
+    };
+    modalContent.appendChild(cancel);
+
+    modal.style.display = "block";
+}
+
+function rename(name) {
+    let modal = document.getElementById("modal");
+    let modalContent = document.getElementById("modal-content");
+    modalContent.innerHTML = "";
+
+    let text = document.createTextNode("Rename " + name + " to");
+    modalContent.appendChild(text);
+
+    let input = document.createElement("input");
+    input.type = "text";
+    modalContent.appendChild(input);
+
+    let ok = document.createElement("button");
+    ok.innerHTML = "Ok";
+    ok.onclick = (_) => {
+        name = window.path + name;
+        const path = window.path + input.value;
+
+        fetch("/rename", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: name,
+                path: path,
+            }),
+        }).then((_) => {
+            location.reload();
+        });
+    };
+    modalContent.appendChild(ok);
 
     let cancel = document.createElement("button");
     cancel.innerHTML = "Cancel";

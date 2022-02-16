@@ -107,6 +107,23 @@ a {
     box-shadow: 0 0 0 3px rgb(255, 150, 150);
 }
 
+.rename {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    height: 30px;
+    width: 30px;
+    border: none;
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+}
+
+.rename:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 3px rgb(150, 150, 255);
+}
+
 .dropdown {
     position: relative;
 }
