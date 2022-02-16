@@ -136,7 +136,7 @@ async fn rename(session: Session, info: Json<Info>) -> impl Responder {
                 let path = format!("files{}", info.name);
                 let new_path = format!("files{}", info.path);
 
-                if Path::new(new_path).exists() {
+                if Path::new(&new_path).exists() {
                     let _ = fs::rename(path, new_path);
                 }
             }
