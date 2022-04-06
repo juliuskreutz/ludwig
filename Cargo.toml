@@ -13,7 +13,6 @@ panic = "abort"
 [dependencies]
 actix-files = "0.6.0"
 actix-multipart = "0.4.0"
-actix-session = "0.5.0"
 acme2 = "0.5.0"
 rustls = "0.20.4"
 serde = "1.0.136"
@@ -26,6 +25,10 @@ rust-argon2 = "1.0.0"
 version = "4.0.1"
 features = ["rustls"]
 
+[dependencies.actix-session]
+version = "0.6.2"
+features = ["cookie-session"]
+
 [dependencies.handlebars]
-version = "4.2.1"
+version = "4.2.2"
 features = ["dir_source"] 

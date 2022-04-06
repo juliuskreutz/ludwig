@@ -7,7 +7,7 @@ use std::{
 
 use actix_files::{Directory, Files};
 use actix_multipart::Multipart;
-use actix_session::{Session, UserSession};
+use actix_session::{Session, SessionExt};
 use actix_web::{
     dev::ServiceResponse,
     post,

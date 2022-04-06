@@ -1,8 +1,8 @@
 use std::io;
 
 use actix_files::Files;
-use actix_session::CookieSession;
-use actix_web::{web::Data, App, HttpServer};
+use actix_session::{storage, SessionMiddleware};
+use actix_web::{cookie, web::Data, App, HttpServer};
 use handlebars::Handlebars;
 use https::Https;
 use rand::Rng;
@@ -27,7 +27,10 @@ async fn main() -> io::Result<()> {
         App::new()
             .app_data(Data::new(handlebars.clone()))
             .wrap(Https::new())
-            .wrap(CookieSession::private(&key).name("auth"))
+            .wrap(SessionMiddleware::new(
+                storage::CookieSessionStore::default(),
+                cookie::Key::from(&key),
+            ))
             .service(Files::new("/static/", "static"))
             .configure(auth::config)
             .configure(files::config)
