@@ -1,7 +1,7 @@
 use std::io;
 
 use actix_files::Files;
-use actix_session::{storage, SessionMiddleware};
+use actix_session::{storage::CookieSessionStore, SessionMiddleware};
 use actix_web::{cookie, web::Data, App, HttpServer};
 use handlebars::Handlebars;
 use https::Https;
@@ -21,14 +21,15 @@ async fn main() -> io::Result<()> {
         .register_templates_directory(".hbs", "templates")
         .unwrap();
 
-    let key = rand::thread_rng().gen::<[u8; 32]>();
+    let mut key = [0; 64];
+    rand::thread_rng().fill(&mut key);
 
     HttpServer::new(move || {
         App::new()
             .app_data(Data::new(handlebars.clone()))
             .wrap(Https::new())
             .wrap(SessionMiddleware::new(
-                storage::CookieSessionStore::default(),
+                CookieSessionStore::default(),
                 cookie::Key::from(&key),
             ))
             .service(Files::new("/static/", "static"))
